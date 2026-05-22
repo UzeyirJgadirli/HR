@@ -6,7 +6,7 @@ class Settings(BaseSettings):
     app_env: str = "development"
     app_host: str = "0.0.0.0"
     app_port: int = 8000
-    upload_dir: str = "./uploads"
+    upload_dir: str = "/tmp/uploads"
     max_upload_files: int = 100
     database_url: str = "sqlite:///./hr_ranker.db"
     anthropic_api_key: str = ""
