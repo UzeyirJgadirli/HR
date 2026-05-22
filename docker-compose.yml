@@ -1,0 +1,46 @@
+version: "3.9"
+
+services:
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: hr-ranker-mssql
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "YourStrong!Passw0rd"
+      MSSQL_PID: "Developer"
+    ports:
+      - "1433:1433"
+    volumes:
+      - mssql_data:/var/opt/mssql
+
+  backend:
+    build:
+      context: ./backend
+    container_name: hr-ranker-backend
+    environment:
+      DATABASE_URL: "mssql+pyodbc://sa:YourStrong!Passw0rd@mssql:1433/hr_ranker?driver=ODBC+Driver+18+for+SQL+Server&TrustServerCertificate=yes"
+      APP_HOST: "0.0.0.0"
+      APP_PORT: "8000"
+      UPLOAD_DIR: "./uploads"
+      MAX_UPLOAD_FILES: "100"
+      ANTHROPIC_API_KEY: "${ANTHROPIC_API_KEY}"
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mssql
+    volumes:
+      - ./backend/uploads:/app/uploads
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: hr-ranker-frontend
+    environment:
+      NEXT_PUBLIC_API_BASE_URL: "http://localhost:8000/api/v1"
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+volumes:
+  mssql_data:

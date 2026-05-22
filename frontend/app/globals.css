@@ -1,0 +1,336 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-primary: #040b1b;
+  --bg-secondary: #0a1633;
+  --panel: rgba(9, 21, 46, 0.86);
+  --text-primary: #e8f0ff;
+  --text-muted: #95a8d1;
+  --accent: #72ffd2;
+  --accent-dark: #35ccaa;
+  --danger: #ff6b8a;
+  --warning: #ffbe5c;
+  --success: #72ffd2;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--text-primary);
+  background:
+    radial-gradient(circle at 15% 15%, rgba(69, 168, 255, 0.16), transparent 34%),
+    radial-gradient(circle at 85% 18%, rgba(114, 255, 210, 0.14), transparent 30%),
+    radial-gradient(circle at 50% 80%, rgba(114, 130, 255, 0.08), transparent 40%),
+    linear-gradient(140deg, var(--bg-primary), var(--bg-secondary));
+  background-attachment: fixed;
+  font-family: var(--font-sora), sans-serif;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-image: linear-gradient(rgba(114, 255, 210, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(114, 255, 210, 0.04) 1px, transparent 1px);
+  background-size: 38px 38px;
+  mask-image: radial-gradient(circle at center, black 45%, transparent 100%);
+}
+
+input,
+textarea,
+select {
+  outline: none;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(114, 255, 210, 0.2);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(114, 255, 210, 0.35);
+}
+
+/* Animations */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(0.95); opacity: 0.7; }
+  50% { transform: scale(1.05); opacity: 1; }
+  100% { transform: scale(0.95); opacity: 0.7; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes progress-indeterminate {
+  0% { left: -30%; width: 30%; }
+  50% { left: 35%; width: 30%; }
+  100% { left: 100%; width: 30%; }
+}
+
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animate-shimmer {
+  background: linear-gradient(90deg, transparent 0%, rgba(114,255,210,0.08) 50%, transparent 100%);
+  background-size: 200% 100%;
+  animation: shimmer 2s ease-in-out infinite;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.5s ease-out forwards;
+}
+
+.animate-spin-slow {
+  animation: spin-slow 3s linear infinite;
+}
+
+/* Drop zone */
+.drop-zone {
+  border: 2px dashed rgba(114, 255, 210, 0.25);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.drop-zone::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(114,255,210,0.03), transparent);
+  pointer-events: none;
+}
+
+.drop-zone:hover,
+.drop-zone.drag-over {
+  border-color: rgba(114, 255, 210, 0.5);
+  background: rgba(114, 255, 210, 0.06);
+  box-shadow: 0 0 30px rgba(114, 255, 210, 0.08);
+}
+
+.drop-zone.drag-over {
+  transform: scale(1.01);
+}
+
+.drop-zone.has-files {
+  border-color: rgba(114, 255, 210, 0.4);
+  border-style: solid;
+}
+
+/* Glass panel */
+.glass-panel {
+  background: rgba(8, 18, 42, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(114, 255, 210, 0.12);
+  border-radius: 1.25rem;
+  box-shadow: 0 12px 45px rgba(3, 12, 31, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.glass-panel-hover {
+  transition: all 0.3s ease;
+}
+
+.glass-panel-hover:hover {
+  border-color: rgba(114, 255, 210, 0.25);
+  box-shadow: 0 16px 55px rgba(3, 12, 31, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transform: translateY(-2px);
+}
+
+/* Score colors */
+.score-excellent { color: #72ffd2; }
+.score-good { color: #a8ff72; }
+.score-average { color: #ffbe5c; }
+.score-poor { color: #ff6b8a; }
+
+.score-bg-excellent { background: rgba(114, 255, 210, 0.15); border-color: rgba(114, 255, 210, 0.3); }
+.score-bg-good { background: rgba(168, 255, 114, 0.15); border-color: rgba(168, 255, 114, 0.3); }
+.score-bg-average { background: rgba(255, 190, 92, 0.15); border-color: rgba(255, 190, 92, 0.3); }
+.score-bg-poor { background: rgba(255, 107, 138, 0.15); border-color: rgba(255, 107, 138, 0.3); }
+
+/* Rank badges */
+.rank-gold {
+  background: linear-gradient(135deg, #ffd700, #ffaa00);
+  color: #1a1a00;
+  box-shadow: 0 2px 12px rgba(255, 215, 0, 0.3);
+}
+.rank-silver {
+  background: linear-gradient(135deg, #c0c0c0, #e8e8e8);
+  color: #1a1a1a;
+  box-shadow: 0 2px 12px rgba(192, 192, 192, 0.3);
+}
+.rank-bronze {
+  background: linear-gradient(135deg, #cd7f32, #e8a862);
+  color: #1a1000;
+  box-shadow: 0 2px 12px rgba(205, 127, 50, 0.3);
+}
+.rank-default {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-muted);
+}
+
+/* Skill chips */
+.chip-matched {
+  background: rgba(114, 255, 210, 0.12);
+  color: #72ffd2;
+  border: 1px solid rgba(114, 255, 210, 0.25);
+}
+
+.chip-missing {
+  background: rgba(255, 107, 138, 0.1);
+  color: #ff6b8a;
+  border: 1px solid rgba(255, 107, 138, 0.2);
+}
+
+/* Progress bar */
+.progress-bar {
+  height: 3px;
+  background: rgba(114, 255, 210, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-bar::after {
+  content: "";
+  position: absolute;
+  height: 100%;
+  background: linear-gradient(90deg, #72ffd2, #45a8ff, #72ffd2);
+  background-size: 200% 100%;
+  animation: progress-indeterminate 1.8s ease-in-out infinite, gradient-shift 3s ease infinite;
+  border-radius: 2px;
+}
+
+/* Step indicator */
+.step-active {
+  background: linear-gradient(135deg, rgba(114,255,210,0.2), rgba(69,168,255,0.15));
+  border-color: rgba(114, 255, 210, 0.4);
+}
+
+.step-completed {
+  background: rgba(114, 255, 210, 0.08);
+  border-color: rgba(114, 255, 210, 0.3);
+}
+
+.step-pending {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+/* Stat card glow */
+.stat-glow {
+  position: relative;
+}
+.stat-glow::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(114,255,210,0.15), transparent 60%);
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.stat-glow:hover::before {
+  opacity: 1;
+}
+
+/* Button styles */
+.btn-primary {
+  background: linear-gradient(135deg, #72ffd2, #45d4aa);
+  color: #061127;
+  font-weight: 600;
+  border: none;
+  border-radius: 0.75rem;
+  padding: 0.625rem 1.5rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(114, 255, 210, 0.2);
+}
+
+.btn-primary:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 25px rgba(114, 255, 210, 0.3);
+  background: linear-gradient(135deg, #99ffde, #72ffd2);
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.06);
+  color: #e8f0ff;
+  font-weight: 600;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 0.75rem;
+  padding: 0.625rem 1.5rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.btn-accent {
+  background: rgba(114, 255, 210, 0.1);
+  color: #72ffd2;
+  font-weight: 600;
+  border: 1px solid rgba(114, 255, 210, 0.3);
+  border-radius: 0.75rem;
+  padding: 0.625rem 1.5rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-accent:hover:not(:disabled) {
+  background: rgba(114, 255, 210, 0.18);
+  border-color: rgba(114, 255, 210, 0.5);
+}
