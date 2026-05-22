@@ -68,6 +68,9 @@ def upload_candidates(
             detail=f"You can upload up to {settings.max_upload_files} files per batch",
         )
 
+    db.query(Candidate).filter(Candidate.job_id == job_id).delete()
+    db.commit()
+
     upload_base = Path(settings.upload_dir) / str(job_id)
     upload_base.mkdir(parents=True, exist_ok=True)
 

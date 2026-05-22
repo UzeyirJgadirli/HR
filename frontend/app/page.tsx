@@ -216,7 +216,7 @@ export default function Home() {
             <button
               onClick={() => {
                 if (n === 1) setStep(1);
-                else if (n === 2 && jobId) setStep(2);
+                else if (n === 2 && jobId) { if (step === 3) setFiles([]); setStep(2); }
                 else if (n === 3 && candidates.length) setStep(3);
               }}
               className={`flex items-center gap-2 rounded-full border px-4 py-1.5 text-xs font-semibold transition-all duration-300 ${
