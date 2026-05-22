@@ -323,7 +323,7 @@ export default function Home() {
                 onChange={(v) => setCriteria({ ...criteria, industry_experience: v })}
               />
               <Field
-                label="Keywords"
+                label="Soft Skills"
                 placeholder="e.g. leadership, agile, product"
                 value={criteria.keywords}
                 onChange={(v) => setCriteria({ ...criteria, keywords: v })}
